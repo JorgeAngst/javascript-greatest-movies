@@ -7,29 +7,27 @@ function getAllDirectors(movies) {
 
 // Iteration 2: Steven Spielberg. The best? - How many drama movies did STEVEN SPIELBERG direct?
 function howManyMovies(movies) {
-  const spielbergMovies = movies.filter(movie => movie.director === "Steven Spielberg")
+  const spielbergDramaMovies = movies.filter(movie => movie.director === "Steven Spielberg" && movie.genre.includes('Drama'))
 
-  const movieGenre = spielbergMovies.map(movie => movie.genre.includes("Drama"))
-
-  let count = 0
-
-  movieGenre.map(drama => drama == true ? count += 1 : 0) 
-
-  return count
+  return spielbergDramaMovies.length
 }
 
 // Iteration 3: All rates average - Get the average of all rates with 2 decimals
 function ratesAverage(movies) {
-
-  if (movies.length === 0) {
-    return 0;
-  } else {
-    const rate = movies.reduce((sum, movie) => {
-        return (sum + movie.rate);
+  let totalRate = 0;
+  if (movies.length > 0) {
+    movies.reduce((sum, movie) => {
+      if (!movie.rate) {
+        return 0;
+      } else {
+        return (totalRate = sum + movie.rate);
+      }
     }, 0);
-    const avgRate = (rate / movies.length).toFixed(2)
-    return parseFloat(avgRate)
+  } else {
+    return 0;
   }
+  let avgRate = parseFloat((totalRate / movies.length).toFixed(2))
+  return avgRate
 }
 
 // Iteration 4: Drama movies - Get the average of Drama Movies
@@ -74,7 +72,7 @@ function orderAlphabetically(movies) {
 }
 
 // BONUS - Iteration 7: Time Format - Turn duration of the movies from hours to minutes
-function turnHoursToMinutes(movies) {
+function turnHoursToMinutes(movies) {  
   const duration = movies.filter(movie => 
     movie.duration = parseInt(movie.duration.slice(0, 1) * 60) + parseInt(movie.duration.slice(2, -3) == '' ? ' 0' : movie.duration.slice(2, -3))
   ) 
@@ -83,7 +81,16 @@ function turnHoursToMinutes(movies) {
 
 // BONUS - Iteration 8: Best yearly rate average - Best yearly rate average
 function bestYearAvg(movies) {
-  return orderByYear(movies)
+  const yearFilter = movies.map(movie => 
+    {
+      return {
+        year: movie.year,
+        rate: movie.rate}
+    })
+  // const byYear = yearFilter.filter((movie, index, yearFilter) => 
+  // console.log(yearFilter.indexOf(movie.year))
+  // ) 
+  
+  return byYear
 } 
 
-console.log(bestYearAvg(movies))
