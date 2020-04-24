@@ -72,12 +72,28 @@ function orderAlphabetically(movies) {
 }
 
 // BONUS - Iteration 7: Time Format - Turn duration of the movies from hours to minutes
-function turnHoursToMinutes(movies) {  
-  const duration = movies.filter(movie => 
-    movie.duration = parseInt(movie.duration.slice(0, 1) * 60) + parseInt(movie.duration.slice(2, -3) == '' ? ' 0' : movie.duration.slice(2, -3))
-  ) 
-  return duration  
-} 
+
+function turnHoursToMinutes(movies) {
+  
+  let newMoviesArray = JSON.parse(JSON.stringify(movies));
+
+  const movieDurationFixed = newMoviesArray.map(movie => {
+    let hours = 0;
+    let minutes = 0;
+    let time = movie.duration.split('');
+      
+    if (time.includes('h')) {
+      hours = parseInt(movie.duration.slice(0, time.indexOf('h')) * 60);
+    }
+    if (time.includes('m')) {
+      minutes = parseInt(movie.duration.slice(time.indexOf(' ') + 1, time.indexOf('m')));
+
+    }
+    movie.duration = hours + minutes;
+    return movie
+  })
+  return movieDurationFixed
+}
 
 // BONUS - Iteration 8: Best yearly rate average - Best yearly rate average
 function bestYearAvg(movies) {
